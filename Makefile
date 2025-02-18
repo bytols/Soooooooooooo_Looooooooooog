@@ -6,46 +6,56 @@
 #    By: erocha-l <erocha-l@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/13 11:25:47 by erocha-l          #+#    #+#              #
-#    Updated: 2025/02/01 00:31:29 by erocha-l         ###   ########.fr        #
+#    Updated: 2025/02/17 17:06:43 by erocha-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =  so_long.a
+# Nome da biblioteca e do executável final
+NAME = so_long
+LIB_NAME = libso_long.a  # Biblioteca estática
 
-FLAGS =-Wall	\
-       -Werror  \
-       -Wextra  \
+# Caminho para MiniLibX
+MINILIB_PATH = ./mlx_linux/
+MINILIB_A = $(MINILIB_PATH)libmlx_Linux.a
 
-CC= cc
+# Flags de compilação
+FLAGS = -Wall -Werror -Wextra -Imlx_linux -O3
 
-C_SOURCE= open_window.c
+# Compilador e criador de biblioteca estática
+CC = cc
+AR = ar rcs
 
-H_FILES = so_long.h 
+# Arquivos fonte e objetos
+SRC = open_window.c
+OBJ = $(SRC:.c=.o)
 
-LibX = -Lmlx_linux -lmlx_Linux ./mlx_linux/libmlx.a -Imlx_linux -lXext -lX11 -lm -lz
+# Bibliotecas externas
+LIBX = -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 
-OBJ_SOURCE= open_window.c.o
+# Regra para compilar arquivos .c para .o
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
 
-.c.o:
-	$(CC) $(FLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $(<:.c=.o)
+all: $(MINILIB_A) $(LIB_NAME) $(NAME)
 
-all: $(NAME)
+# Compilar MiniLibX se necessário
+$(MINILIB_A):
+	make -C $(MINILIB_PATH)
 
-$(NAME): $(OBJ_SOURCE)
-	ar -src  $(NAME) $(OBJ_SOURCE)
+# Criar a biblioteca estática
+$(LIB_NAME): $(OBJ)
+	$(AR) $(LIB_NAME) $(OBJ)
 
-$(OBJ_SOURCE): $(C_SOURCE)
-	$(CC) $(FLAGS) -c $(C_SOURCE)
- 
-re: $(NAME) $(OBJ_SOURCE)
-	make fclean
-	make all
+# Criar o executável final usando a biblioteca
+$(NAME): $(LIB_NAME)
+	$(CC) $(OBJ) $(LIB_NAME) $(LIBX) -o $(NAME)
+
+re: fclean all
 
 clean:
-	rm -rf $(OBJ_SOURCE)
+	rm -rf $(OBJ)
 
-fclean:
-	rm -rf $(NAME)
-	rm -rf $(OBJ_SOURCE)
+fclean: clean
+	rm -rf $(LIB_NAME) $(NAME)
 
 .PHONY: all clean fclean re
