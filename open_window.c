@@ -31,8 +31,11 @@ int close(int keycode, t_vars *vars)
 	vars->closed = 0;
 	printf("fechei! %d \n", keycode);
 	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);
+	printf("fechei! %d \n", keycode);
+	//mlx_destroy_display(vars->mlx);
+	printf("fechei! %d \n", keycode);
 	free(vars->mlx);
+	printf("fechei! %d \n", keycode);
 	exit(0);
 	return (0);
 }
@@ -42,8 +45,11 @@ int destroy(t_vars *vars)
 	printf("Fechando janela via botão X\n");
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
+	printf("Fechando janela via botão X\n");
 	free(vars->mlx);
+	printf("Fechando janela via botão X\n");
 	exit(0);
+	printf("Fechando janela via botão X\n");
 	return (0);
 }
 
@@ -52,7 +58,7 @@ int	main(void)
 	t_data	img;
 	t_vars	vars;
 
-	vars.mlx = mlx_init();
+	vars.mlx = mlgitx_init();
 	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
 	vars.closed = 1;
 	if(vars.win == NULL)
