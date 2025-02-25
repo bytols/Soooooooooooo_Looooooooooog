@@ -26,7 +26,7 @@ CC = cc
 AR = ar rcs
 
 # Arquivos fonte e objetos
-SRC = open_window.c
+SRC = open_window.c so_long.c
 OBJ = $(SRC:.c=.o)
 
 # Bibliotecas externas

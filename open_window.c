@@ -57,7 +57,7 @@ int print_pixel(t_vars *param)
 	}
 	return(0);
 }
-int	main(void)
+/*int	main(void)
 {
 	t_data	img;
 	t_vars	vars;
@@ -88,4 +88,4 @@ int	main(void)
 	mlx_loop_hook(vars.mlx, print_pixel, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
-}
+}*/

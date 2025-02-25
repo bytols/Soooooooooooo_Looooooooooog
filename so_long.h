@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <X11/keysym.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 typedef struct s_data {
 	void	*img;
