@@ -38,4 +38,7 @@ typedef struct s_vars {
 	t_data	*img;
 }	t_vars;
 
+void get_map(int fd);
+
+
 #endif
