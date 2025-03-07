@@ -12,13 +12,15 @@
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
+# define BUFFER_SIZE 20
 
+# include <unistd.h>
 # include "./mlx_linux/mlx.h" 
+# include "./libft/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
-# include <unistd.h>
 
 typedef struct s_data {
 	void	*img;
@@ -38,7 +40,26 @@ typedef struct s_vars {
 	t_data	*img;
 }	t_vars;
 
-void get_map(int fd);
+typedef struct s_map_values
+{
+	int	player;
+	int collectable;
+	int exit;
+	int height;
+	int length;
+	int	walls;
+	char	*first_line;
+	char	*last_line;
+} t_map_values;
 
+int 	get_map(int fd);
+char 	*get_next_line(int fd);
+char	*ft_free(char *buffer, char *buf);
+char	*ft_next(char *buffer);
+char	*ft_line(char *buffer);
+char	*read_file(int fd, char *res);
+void	check_elements(t_map_values *valid, char *str);
+int 	check_valid(t_map_values map);
+int 	str_size(const char *s);
 
 #endif
