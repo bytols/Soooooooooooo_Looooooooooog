@@ -52,7 +52,14 @@ typedef struct s_map_values
 	char	*last_line;
 } t_map_values;
 
-int 	get_map(int fd);
+typedef struct s_map_values_fd
+{
+	int	player;
+	int collectable;
+	int exit;
+} t_map_values_fd;
+
+int 	get_map(int fd, char *map_path);
 char 	*get_next_line(int fd);
 char	*ft_free(char *buffer, char *buf);
 char	*ft_next(char *buffer);
@@ -61,5 +68,13 @@ char	*read_file(int fd, char *res);
 void	check_elements(t_map_values *valid, char *str);
 int 	check_valid(t_map_values map);
 int 	str_size(const char *s);
+void	free_matrix(char *** matrix);
+char 	**create_map_matrix(int fd, int size, int height);
+void	dfs(char **grid, int j, int i, t_map_values_fd *map);
+int		flood_fill(int size, int height, char *map_path, t_map_values map_full);
+void	find_player_position(char **matrix, int *i, int *j, int height);
+int		matrix_height(char **grid);
+void init_struct(t_map_values * valid);
+
 
 #endif

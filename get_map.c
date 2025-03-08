@@ -11,32 +11,26 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-int str_size(const char *s)
-{
-    size_t	i;
-	char	*str;
 
-	str = (char *)s;
-	i = 0;
-	while ((str[i] != '\0') && (str[i] != '\n'))
-		i++;
-	return (i);
+void init_struct(t_map_values * valid)
+{
+    (*valid).player = 0;
+    (*valid).collectable = 0;
+    (*valid).exit = 0;
+    (*valid).height = 0;
+    (*valid).walls = 0;
 }
 
-int get_map(int fd)
+int get_map(int fd, char *map_path)
 {
     char    *line;
     int     size;
     t_map_values valid;
     
     line = get_next_line(fd);
-    valid.player = 0;
-    valid.collectable = 0;
-    valid.exit = 0;
-    valid.height = 0;
-    valid.length = str_size(line);
     valid.first_line = line;
-    valid.walls = 0;
+    valid.length = str_size(line);
+    init_struct(&valid);
     while(line)
     {
         valid.last_line = line;
@@ -50,6 +44,10 @@ int get_map(int fd)
         valid.height++;
         line = get_next_line(fd);
     }
+    printf("aqui está a linha antes %d\n" , fd);
+    size = flood_fill(valid.length, valid.height, map_path, valid);
+    if (size == 0)
+        valid.walls = -1;
     size = check_valid(valid);
     return (size);
 }
@@ -67,7 +65,7 @@ void check_elements(t_map_values *valid, char *str)
             valid->exit++;
         else if(str[i] == 'P')
             valid->player++;
-        else if((str[i] != '0') && (str[i] != '1') && (str[i] != '\n'))
+        else if((str[i] != '0') && (str[i] != '1') && (str[i] != '\n') && (str[i] != '\r'))
         {
             printf("definitivamente foi aqui %c\n" , str[i]);
             valid->walls = -1;
@@ -75,9 +73,9 @@ void check_elements(t_map_values *valid, char *str)
         i++;
     }
     printf("vendo se peguei correto %d e %d e %d e %c e %c \n", valid->player , valid->collectable, valid->exit, str[0], str[i - 2]);
-    if((str[0] != '1') || (str[i - 2] != '1'))
+    if((str[0] != '1') || (str[i - 3] != '1'))
     {
-        printf("definitivamente foi aqui  2 %c\n" , str[i]);
+        printf("definitivamente foi aqui  2 %c e %c\n " , str[0], str[i - 3]);
         valid->walls = -1;
     }
 }

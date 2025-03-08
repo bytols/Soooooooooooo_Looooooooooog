@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
     printf("\naté aqui foi?\n");
     fd = open(argv[1], O_RDWR);
     printf("\naté aqui foi2?\n");
-    result = get_map(fd);
+    result = get_map(fd, argv[1]);
+    close(fd);
     printf("result %d\n", result);
     if(result == 0)
     {
