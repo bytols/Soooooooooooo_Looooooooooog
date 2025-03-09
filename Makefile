@@ -29,7 +29,7 @@ CC = cc
 AR = ar rcs
 
 # Arquivos fonte e objetos
-SRC = open_window.c so_long.c get_map.c get_next_line.c flood_fill.c so_long_str_utils.c game.c
+SRC = open_window.c so_long.c get_map.c get_next_line.c flood_fill.c so_long_str_utils.c game.c gameplay.c
 OBJ = $(SRC:.c=.o)
 
 # Bibliotecas externas
