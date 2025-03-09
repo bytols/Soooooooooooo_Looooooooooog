@@ -39,64 +39,49 @@ void	game(char *map)
 
 void render_map(char *map_name, t_vars *window)
 {
+    int i;
     int fd;
     int height;
     char *line;
 
+    i = 0;
     height = 0;
     fd = open(map_name, O_RDWR );
     line = get_next_line(fd);
     while(line != NULL)
     {
         window->height = height;
-        render_line(line, &window);
+        render_line(line, &window, i);
         height += 16;
         line = get_next_line(fd);
     }
 }
 
-void render_line(char *line, t_vars **window)
+void render_line(char *line, t_vars **window, int i)
 {
-    int     i;
     t_data	img;
     int     x_pos;
     int     y_pos;
 
     img.img = mlx_new_image((*window)->mlx, 1280, 720);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    (*window)->img  = &img;
-    i = 0;
-    (*window)->width = 0;
+    //(*window)->img  = &img;
     x_pos = 0;
     y_pos = (*window)->height;
-    printf("width %d \n" , (*window)->height);
+    //printf("width %d \n" , (*window)->height);
     while (line[i] != '\n')
     {
         if (line[i] == '0')
-        {
             img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/ground.xpm", &(*window)->width, &(*window)->height);
-            mlx_put_image_to_window((*window)->mlx, (*window)->win, img.img, x_pos, y_pos);
-        }
         else if (line[i] == 'C')
-        {
             img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/collectable.xpm", &(*window)->width, &(*window)->height);
-            mlx_put_image_to_window((*window)->mlx, (*window)->win, img.img, x_pos, y_pos);
-        }
         else if (line[i] == 'P')
-        {
             img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/player.xpm", &(*window)->width, &(*window)->height);
-            mlx_put_image_to_window((*window)->mlx, (*window)->win, img.img, x_pos, y_pos);
-        }
         else if (line[i] == '1')
-        {
             img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/rock.xpm", &(*window)->width, &(*window)->height);
-            mlx_put_image_to_window((*window)->mlx, (*window)->win, img.img, x_pos, y_pos);
-        }
         else if (line[i] == 'E')
-        {
             img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/exit.xpm", &(*window)->width, &(*window)->height);
-            mlx_put_image_to_window((*window)->mlx, (*window)->win, img.img, x_pos, y_pos);
-        }
+        mlx_put_image_to_window((*window)->mlx, (*window)->win, img.img, x_pos, y_pos);
         i++;
         x_pos += 16;
     }

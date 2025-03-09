@@ -80,7 +80,7 @@ void	init_struct(t_map_values * valid);
 void	free_matrix(char *** matrix);
 void	game(char *map);
 void 	render_map(char *map_name, t_vars *window);
-void 	render_line(char *line, t_vars **window);
+void 	render_line(char *line, t_vars **window, int i);
 
 
 #endif
