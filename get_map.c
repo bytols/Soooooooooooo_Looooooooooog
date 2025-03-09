@@ -35,7 +35,6 @@ int get_map(int fd, char *map_path)
     {
         valid.last_line = line;
         size = str_size(line);
-        printf("%d  %s", size, line);
         if (size != valid.length)
             valid.length = -1;
         else
@@ -44,7 +43,6 @@ int get_map(int fd, char *map_path)
         valid.height++;
         line = get_next_line(fd);
     }
-    printf("aqui está a linha antes %d\n" , fd);
     size = flood_fill(valid.length, valid.height, map_path, valid);
     if (size == 0)
         valid.walls = -1;
@@ -66,18 +64,11 @@ void check_elements(t_map_values *valid, char *str)
         else if(str[i] == 'P')
             valid->player++;
         else if((str[i] != '0') && (str[i] != '1') && (str[i] != '\n') && (str[i] != '\r'))
-        {
-            printf("definitivamente foi aqui %c\n" , str[i]);
             valid->walls = -1;
-        }
         i++;
     }
-    printf("vendo se peguei correto %d e %d e %d e %c e %c \n", valid->player , valid->collectable, valid->exit, str[0], str[i - 2]);
     if((str[0] != '1') || (str[i - 3] != '1'))
-    {
-        printf("definitivamente foi aqui  2 %c e %c\n " , str[0], str[i - 3]);
         valid->walls = -1;
-    }
 }
 
 int check_valid(t_map_values map)
@@ -87,35 +78,19 @@ int check_valid(t_map_values map)
 
     valid = 1;
     i = 0;
-    printf("vendo se peguei correto 2 %d e %d e %d e %d\n", map.player , map.collectable, map.exit, map.walls);
     if((map.player <= 0 || map.player > 1) || (map.collectable <= 0)
             || (map.exit <= 0 || map.exit > 1))
-    {
-        printf("\nfoi aqui1\n");
         valid = 0;
-    }
     if(map.length == -1)
-    {
-        printf("\nfoi aqui2\n");
         valid = 0;
-    }
     if(map.length == map.height)
-    {
-        printf("\nfoi aqui3\n");
         valid = 0;
-    }
     if(map.walls == -1)
-    {
-        printf("\nfoi aqui 4\n");
         valid = 0;
-    }
     while(map.first_line[i] && map.last_line[i])
     {
         if((map.first_line[i] != '1') || (map.last_line[i] != '1'))
-        {
-            printf("\nfoi aqui 5\n");
             valid = 0;
-        }
         i++;   
     }
     return(valid);

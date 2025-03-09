@@ -35,6 +35,8 @@ typedef struct s_vars {
 	void	*win;
 	int		width;
 	int		height;
+	int		window_width;
+	int		window_height;
 	int		closed;
 	int		color;
 	t_data	*img;
@@ -74,7 +76,11 @@ void	dfs(char **grid, int j, int i, t_map_values_fd *map);
 int		flood_fill(int size, int height, char *map_path, t_map_values map_full);
 void	find_player_position(char **matrix, int *i, int *j, int height);
 int		matrix_height(char **grid);
-void init_struct(t_map_values * valid);
+void	init_struct(t_map_values * valid);
+void	free_matrix(char *** matrix);
+void	game(char *map);
+void 	render_map(char *map_name, t_vars *window);
+void 	render_line(char *line, t_vars **window);
 
 
 #endif
