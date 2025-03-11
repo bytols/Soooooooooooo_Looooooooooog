@@ -11,41 +11,49 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-char check_position(t_player **t_vars, int x, int y)
+char check_position(t_vars **t_vars, int x, int y)
 {
     char location;
     int loc_x;
     int loc_y;
 
-    printf("aqui os x e y %d %d \n", x , y);
     loc_x = (*t_vars)->x;
     loc_y = (*t_vars)->y;
-    printf("aqui os locx e locy %d %d \n", loc_x , loc_y);
     loc_x += x;
     loc_y += y;
-    printf("aqui os locx e locy depois %d %d  e tvars %d %d \n", loc_x , loc_y, (*t_vars)->map_x , (*t_vars)->map_y);
-    if(loc_x < 0 || loc_y < 0 || loc_x > (*t_vars)->map_x || loc_y > (*t_vars)->map_y)
+    printf("locx e locy %d %d  e tvars %d %d \n", loc_x , loc_y, (*t_vars)->window_width , (*t_vars)->window_height);
+    if(loc_x < 0 || loc_y < 0 || loc_x > (*t_vars)->window_width || loc_y > (*t_vars)->window_height 
+        || (*t_vars)->grid[loc_y][loc_x] == '1')
     {
         printf("retornei null!\n");
         return ('\0');
     }
-    location = (*t_vars)->grid[y][x];
-    printf("aqui! %c\n" ,location);
+    location = (*t_vars)->grid[loc_y][loc_x];
+    (*t_vars)->x += x;
+    (*t_vars)->y += y;
     return (location);
 }
 
 
-void update(t_player **vars, int x, int y)
+void update(t_vars **vars, int x, int y)
 {
     char    loc_value;
+    void    *img;
+    int     last_x;
+    int     last_y;
 
+    last_x = (*vars)->x;
+    last_y = (*vars)->y;
     loc_value = check_position(vars, x, y);
+    img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/ground.xpm", &(*vars)->width, &(*vars)->height);
+    mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img, (last_x * 16), (last_y * 16));
+    img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player.xpm", &(*vars)->width, &(*vars)->height);
+    mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img,(*vars)->x * 16, (*vars)->y * 16);
     printf("local: %c\n", loc_value);
 }
 
-int movement(int keycode, t_player *vars)
+int movement(int keycode, t_vars *vars)
 {
-    printf("aqui os locx e locy no movement: %d %d \n", vars->x , vars->y);
 	if (keycode == XK_Escape)
 	{
 		printf("fechei!\n");
@@ -55,15 +63,20 @@ int movement(int keycode, t_player *vars)
 	}
 	else if (keycode == XK_Up)
     {
-		printf("tecla pressionada up! %d \n", keycode);
-        update(&vars, 0, 1);
+        update(&vars, 0, -1);
     }
 	else if (keycode == XK_Down)
-		printf("tecla pressionada down! %d \n", keycode);
+    {
+        update(&vars, 0, 1);
+    }
 	else if (keycode == XK_Left)
-		printf("tecla pressionada left! %d \n", keycode);
+    {
+        update(&vars, -1, 0);
+    }
 	else if (keycode == XK_Right)
-		printf("tecla pressionada rigth! %d \n", keycode);
+    {
+        update(&vars, 1, 0);
+    }
 	else
 		printf("tecla pressionada! %d \n", keycode);
 	return (0);
@@ -73,23 +86,20 @@ void gameplay(char *map, t_vars *vars, int size, int height)
 {
     int fd;
     int i;
-    t_player player;
 
-    player.mlx = vars->mlx;
-    player.win = vars->win;
-    player.x = 0;
-    player.y = 0;
-    player.map_x = size;
-    player.map_y = height;
+    vars->x = 0;
+    vars->y = 0;
+    vars->window_height = height;
+    vars->window_width = size;
     fd = open(map, O_RDWR);
     i = 0;
-    player.grid = create_map_matrix(fd, size, height);
-    find_player_position(player.grid, &player.x, &player.y, height);
-    printf("altura x %d, y %d\n", player.x, player.y);
-    while(player.grid[i] != NULL)
+    vars->grid = create_map_matrix(fd, size, height);
+    find_player_position(vars->grid, &vars->x, &vars->y, height);
+    printf("altura x %d, y %d\n", vars->x, vars->y);
+    while(vars->grid[i] != NULL)
     {
-        printf("%s\n", player.grid[i]);
+        printf("%s\n", vars->grid[i]);
         i++;
     }
-    mlx_hook(player.win,2, 1L<<0, movement, &player);
+    mlx_hook(vars->win, 2, 1L<<0, movement, vars);
 }

@@ -40,6 +40,9 @@ typedef struct s_vars {
 	char	**grid;
 	int		x;
 	int		y;
+	int		collectable;
+	int		exit;
+	int		move;
 }	t_vars;
 
 typedef struct s_map_values
@@ -52,8 +55,6 @@ typedef struct s_map_values
 	int	walls;
 	char	*first_line;
 	char	*last_line;
-	int		collectable;
-	int		exit;
 } t_map_values;
 
 typedef struct s_map_values_fd
@@ -97,9 +98,9 @@ void	game(char *map);
 void 	render_map(char *map_name, t_vars *window);
 void 	render_line(char *line, t_vars **window, int i);
 void	gameplay(char *map, t_vars *vars, int size, int height);
-int		movement(int keycode, t_player *vars);
-void update(t_player **vars, int x, int y);
-char check_position(t_player **t_vars, int x, int y);
+int		movement(int keycode, t_vars *vars);
+void update(t_vars **vars, int x, int y);
+char check_position(t_vars **t_vars, int x, int y);
 
 
 #endif
