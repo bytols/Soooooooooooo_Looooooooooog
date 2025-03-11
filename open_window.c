@@ -1,4 +1,4 @@
-#include "so_long.h" 
+/*#include "so_long.h" 
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -56,7 +56,7 @@ int print_pixel(t_vars *param)
 		mlx_put_image_to_window(param->mlx, param->win, param->img->img, 10, 10);
 	}
 	return(0);
-}
+}*/
 /*int	main(void)
 {
 	t_data	img;
@@ -86,6 +86,6 @@ int print_pixel(t_vars *param)
 	img.img = mlx_xpm_file_to_image(vars.mlx, "sprites/a004.xpm", &vars.width, &vars.height );
 
 	mlx_loop_hook(vars.mlx, print_pixel, &vars);
-	mlx_loop(vars.mlx);
+	mlx_loop( .mlx);
 	return (0);
 }*/
