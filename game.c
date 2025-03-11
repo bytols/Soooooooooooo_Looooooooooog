@@ -26,6 +26,7 @@ void	game(char *map)
         line = get_next_line(fd);
         vars.window_height++;
     }
+    close(fd);
     vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, (vars.window_width * 16), (vars.window_height * 16), "Hello world!");
 	if(vars.win == NULL)
@@ -34,6 +35,8 @@ void	game(char *map)
 		free(vars.mlx);
 	}
     render_map(map, &vars);
+    printf("cheguei aqui!!1\n");
+    gameplay(map, &vars, vars.window_width, vars.window_height);
     mlx_loop(vars.mlx);
 }
 
@@ -59,29 +62,26 @@ void render_map(char *map_name, t_vars *window)
 
 void render_line(char *line, t_vars **window, int i)
 {
-    t_data	img;
+    void	*img;
     int     x_pos;
     int     y_pos;
 
-    img.img = mlx_new_image((*window)->mlx, 1280, 720);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    //(*window)->img  = &img;
     x_pos = 0;
     y_pos = (*window)->height;
-    //printf("width %d \n" , (*window)->height);
+    img = NULL;
     while (line[i] != '\n')
     {
         if (line[i] == '0')
-            img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/ground.xpm", &(*window)->width, &(*window)->height);
+            img = mlx_xpm_file_to_image((*window)->mlx, "sprites/ground.xpm", &(*window)->width, &(*window)->height);
         else if (line[i] == 'C')
-            img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/collectable.xpm", &(*window)->width, &(*window)->height);
+            img = mlx_xpm_file_to_image((*window)->mlx, "sprites/collectable.xpm", &(*window)->width, &(*window)->height);
         else if (line[i] == 'P')
-            img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/player.xpm", &(*window)->width, &(*window)->height);
+            img = mlx_xpm_file_to_image((*window)->mlx, "sprites/player.xpm", &(*window)->width, &(*window)->height);
         else if (line[i] == '1')
-            img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/rock.xpm", &(*window)->width, &(*window)->height);
+            img = mlx_xpm_file_to_image((*window)->mlx, "sprites/rock.xpm", &(*window)->width, &(*window)->height);
         else if (line[i] == 'E')
-            img.img = mlx_xpm_file_to_image((*window)->mlx, "sprites/exit.xpm", &(*window)->width, &(*window)->height);
-        mlx_put_image_to_window((*window)->mlx, (*window)->win, img.img, x_pos, y_pos);
+            img = mlx_xpm_file_to_image((*window)->mlx, "sprites/exit.xpm", &(*window)->width, &(*window)->height);
+        mlx_put_image_to_window((*window)->mlx, (*window)->win, img, x_pos, y_pos);
         i++;
         x_pos += 16;
     }

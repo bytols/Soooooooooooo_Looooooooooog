@@ -37,9 +37,9 @@ typedef struct s_vars {
 	int		height;
 	int		window_width;
 	int		window_height;
-	int		closed;
-	int		color;
-	t_data	*img;
+	char	**grid;
+	int		x;
+	int		y;
 }	t_vars;
 
 typedef struct s_map_values
@@ -52,6 +52,8 @@ typedef struct s_map_values
 	int	walls;
 	char	*first_line;
 	char	*last_line;
+	int		collectable;
+	int		exit;
 } t_map_values;
 
 typedef struct s_map_values_fd
@@ -60,6 +62,19 @@ typedef struct s_map_values_fd
 	int collectable;
 	int exit;
 } t_map_values_fd;
+
+typedef struct s_player
+{
+	void	*mlx;
+	void	*win;
+	char	**grid;
+	int		x;
+	int		y;
+	int		map_x;
+	int		map_y;
+	int		collectable;
+	int		exit;
+} t_player;
 
 int 	get_map(int fd, char *map_path);
 char 	*get_next_line(int fd);
@@ -81,6 +96,10 @@ void	free_matrix(char *** matrix);
 void	game(char *map);
 void 	render_map(char *map_name, t_vars *window);
 void 	render_line(char *line, t_vars **window, int i);
+void	gameplay(char *map, t_vars *vars, int size, int height);
+int		movement(int keycode, t_player *vars);
+void update(t_player **vars, int x, int y);
+char check_position(t_player **t_vars, int x, int y);
 
 
 #endif
