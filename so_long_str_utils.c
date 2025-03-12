@@ -53,3 +53,26 @@ void find_player_position(char **matrix, int *i, int *j, int height)
         (*j)++;
     }
 }
+
+int count_collectable(char **grid)
+{
+    int collectable;
+    int i;
+    int j;
+
+    collectable = 0;
+    i = 0;
+    j = 0;
+    while(grid[j] != NULL)
+    {
+        while (grid[j][i] != '\0')
+        {
+            if(grid[j][i] == 'C')
+                collectable++;
+            i++;
+        }
+        i = 0;
+        j++;
+    }
+    return(collectable);
+}

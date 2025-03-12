@@ -40,8 +40,8 @@ typedef struct s_vars {
 	char	**grid;
 	int		x;
 	int		y;
+	int		collectable_max;
 	int		collectable;
-	int		exit;
 	int		move;
 }	t_vars;
 
@@ -99,8 +99,12 @@ void 	render_map(char *map_name, t_vars *window);
 void 	render_line(char *line, t_vars **window, int i);
 void	gameplay(char *map, t_vars *vars, int size, int height);
 int		movement(int keycode, t_vars *vars);
-void update(t_vars **vars, int x, int y);
-char check_position(t_vars **t_vars, int x, int y);
+void 	update(t_vars **vars, int x, int y);
+char 	check_position(t_vars **t_vars, int x, int y);
+int 	count_collectable(char **grid);
+int 	x_press( t_vars *vars);
+
+
 
 
 #endif

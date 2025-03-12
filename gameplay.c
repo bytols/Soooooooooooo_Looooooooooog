@@ -45,12 +45,23 @@ void update(t_vars **vars, int x, int y)
     last_x = (*vars)->x;
     last_y = (*vars)->y;
     loc_value = check_position(vars, x, y);
-    img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/ground.xpm", &(*vars)->width, &(*vars)->height);
+    if ((*vars)->grid[last_y][last_x] == 'E')
+        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/exit.xpm", &(*vars)->width, &(*vars)->height);
+    else 
+        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/ground.xpm", &(*vars)->width, &(*vars)->height);   
     mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img, (last_x * 16), (last_y * 16));
-    img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player.xpm", &(*vars)->width, &(*vars)->height);
+    if (loc_value == 'E')
+        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player_exit.xpm", &(*vars)->width, &(*vars)->height);
+    else 
+        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player.xpm", &(*vars)->width, &(*vars)->height);
     mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img,(*vars)->x * 16, (*vars)->y * 16);
-    if((*vars->collectable ))
-    printf("local: %c\n", loc_value);
+    if(loc_value == 'C')
+    {
+        (*vars)->collectable++;
+        (*vars)->grid[(*vars)->y][(*vars)->x] = 0;
+    }
+    if ((loc_value == 'E') && ((*vars)->collectable == (*vars)->collectable_max))
+        mlx_destroy_display((*vars)->mlx); // maybe free rigth here not in game!
 }
 
 int movement(int keycode, t_vars *vars)
@@ -80,8 +91,18 @@ int movement(int keycode, t_vars *vars)
     }
 	else
 		printf("tecla pressionada! %d \n", keycode);
+    vars->move++;
+    printf("move: %d\n", vars->move);
 	return (0);
 }
+
+int x_press( t_vars *vars)
+{
+    printf("fechei! pelo x!\n");
+    mlx_destroy_window(vars->mlx, vars->win);
+    exit(0);
+}
+
 
 void gameplay(char *map, t_vars *vars, int size, int height)
 {
@@ -92,9 +113,12 @@ void gameplay(char *map, t_vars *vars, int size, int height)
     vars->y = 0;
     vars->window_height = height;
     vars->window_width = size - 2;
+    vars->collectable = 0;
+    vars->move = 0;
     fd = open(map, O_RDWR);
     i = 0;
     vars->grid = create_map_matrix(fd, size, height);
+    vars->collectable_max = count_collectable(vars->grid);
     find_player_position(vars->grid, &vars->x, &vars->y, height);
     printf("altura x %d, y %d\n", vars->x, vars->y);
     while(vars->grid[i] != NULL)
@@ -103,4 +127,5 @@ void gameplay(char *map, t_vars *vars, int size, int height)
         i++;
     }
     mlx_hook(vars->win, 2, 1L<<0, movement, vars);
+    mlx_hook(vars->win, 17, 0L, x_press, vars);
 }

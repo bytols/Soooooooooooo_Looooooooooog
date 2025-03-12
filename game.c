@@ -38,6 +38,8 @@ void	game(char *map)
     printf("cheguei aqui!!1\n");
     gameplay(map, &vars, vars.window_width, vars.window_height);
     mlx_loop(vars.mlx);
+    free(vars.mlx);
+    printf("encerrei aqui!\n");
 }
 
 void render_map(char *map_name, t_vars *window)
