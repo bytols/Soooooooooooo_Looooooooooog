@@ -49,6 +49,7 @@ void update(t_vars **vars, int x, int y)
     mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img, (last_x * 16), (last_y * 16));
     img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player.xpm", &(*vars)->width, &(*vars)->height);
     mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img,(*vars)->x * 16, (*vars)->y * 16);
+    if((*vars->collectable ))
     printf("local: %c\n", loc_value);
 }
 
@@ -90,7 +91,7 @@ void gameplay(char *map, t_vars *vars, int size, int height)
     vars->x = 0;
     vars->y = 0;
     vars->window_height = height;
-    vars->window_width = size;
+    vars->window_width = size - 2;
     fd = open(map, O_RDWR);
     i = 0;
     vars->grid = create_map_matrix(fd, size, height);
