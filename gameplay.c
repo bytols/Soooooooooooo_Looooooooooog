@@ -39,17 +39,21 @@ void update(t_vars **vars, int x, int y)
 {
     char    loc_value;
     void    *img;
-    int     last_x;
-    int     last_y;
 
-    last_x = (*vars)->x;
-    last_y = (*vars)->y;
+    (*vars)->lx = (*vars)->x;
+    (*vars)->ly = (*vars)->y;
     loc_value = check_position(vars, x, y);
-    if ((*vars)->grid[last_y][last_x] == 'E')
+    //printf("local %d\n", loc_value);
+    if(loc_value == '\0')
+    {
+        printf("entrei aqui! aaaa\n");
+        return ;
+    }
+    if ((*vars)->grid[(*vars)->ly][(*vars)->lx] == 'E')
         img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/exit.xpm", &(*vars)->width, &(*vars)->height);
     else 
         img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/ground.xpm", &(*vars)->width, &(*vars)->height);   
-    mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img, (last_x * 16), (last_y * 16));
+    mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img, ((*vars)->lx * 16), ((*vars)->ly * 16));
     if (loc_value == 'E')
         img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player_exit.xpm", &(*vars)->width, &(*vars)->height);
     else 
@@ -66,33 +70,29 @@ void update(t_vars **vars, int x, int y)
 
 int movement(int keycode, t_vars *vars)
 {
+    int last_x;
+    int last_y;
+
+    last_x = vars->x;
+    last_y = vars->y;
 	if (keycode == XK_Escape)
 	{
-		printf("fechei!\n");
 		mlx_destroy_window(vars->mlx, vars->win);
-		free(vars->mlx);
-		exit(0);
+		return (0);
 	}
 	else if (keycode == XK_Up)
-    {
         update(&vars, 0, -1);
-    }
 	else if (keycode == XK_Down)
-    {
         update(&vars, 0, 1);
-    }
 	else if (keycode == XK_Left)
-    {
         update(&vars, -1, 0);
-    }
 	else if (keycode == XK_Right)
-    {
         update(&vars, 1, 0);
+    if((last_x != vars->x || last_y != vars->y))
+    {
+        vars->move++;
+        printf("move: %d\n", vars->move);
     }
-	else
-		printf("tecla pressionada! %d \n", keycode);
-    vars->move++;
-    printf("move: %d\n", vars->move);
 	return (0);
 }
 

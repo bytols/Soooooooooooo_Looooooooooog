@@ -40,6 +40,8 @@ typedef struct s_vars {
 	char	**grid;
 	int		x;
 	int		y;
+	int		lx;
+	int		ly;
 	int		collectable_max;
 	int		collectable;
 	int		move;
