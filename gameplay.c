@@ -21,13 +21,9 @@ char check_position(t_vars **t_vars, int x, int y)
     loc_y = (*t_vars)->y;
     loc_x += x;
     loc_y += y;
-    printf("locx e locy %d %d  e tvars %d %d \n", loc_x , loc_y, (*t_vars)->window_width , (*t_vars)->window_height);
     if(loc_x < 0 || loc_y < 0 || loc_x > (*t_vars)->window_width || loc_y > (*t_vars)->window_height 
         || (*t_vars)->grid[loc_y][loc_x] == '1')
-    {
-        printf("retornei null!\n");
         return ('\0');
-    }
     location = (*t_vars)->grid[loc_y][loc_x];
     (*t_vars)->x += x;
     (*t_vars)->y += y;
@@ -39,25 +35,12 @@ void update(t_vars **vars, int x, int y)
 {
     char    loc_value;
     void    *img;
-    int     j;
-
-    j = 0;
-    while ((*vars)->grid[j] != NULL)
-    {
-        printf("%s\n", (*vars)->grid[j]);
-        j++;
-    }
-    
 
     (*vars)->lx = (*vars)->x;
     (*vars)->ly = (*vars)->y;
     loc_value = check_position(vars, x, y);
-    //printf("local %d\n", loc_value);
     if(loc_value == '\0')
-    {
-        printf("entrei aqui! aaaa\n");
         return ;
-    }
     if ((*vars)->grid[(*vars)->ly][(*vars)->lx] == 'E')
         img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/exit.xpm", &(*vars)->width, &(*vars)->height);
     else 
@@ -107,7 +90,6 @@ int movement(int keycode, t_vars *vars)
 
 int x_press( t_vars *vars)
 {
-    printf("fechei! pelo x!\n");
     mlx_destroy_window(vars->mlx, vars->win);
     exit(0);
 }
@@ -116,7 +98,6 @@ int x_press( t_vars *vars)
 void gameplay(char *map, t_vars *vars, int size, int height)
 {
     int fd;
-    int i;
 
     vars->x = 0;
     vars->y = 0;
@@ -125,16 +106,9 @@ void gameplay(char *map, t_vars *vars, int size, int height)
     vars->collectable = 0;
     vars->move = 0;
     fd = open(map, O_RDWR);
-    i = 0;
     vars->grid = create_map_matrix(fd, size, height);
     vars->collectable_max = count_collectable(vars->grid);
     find_player_position(vars->grid, &vars->x, &vars->y, height);
-    printf("altura x %d, y %d\n", vars->x, vars->y);
-    while(vars->grid[i] != NULL)
-    {
-        printf("%s\n", vars->grid[i]);
-        i++;
-    }
     mlx_hook(vars->win, 2, 1L<<0, movement, vars);
     mlx_hook(vars->win, 17, 0L, x_press, vars);
 }
