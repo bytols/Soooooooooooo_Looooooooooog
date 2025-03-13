@@ -39,6 +39,15 @@ void update(t_vars **vars, int x, int y)
 {
     char    loc_value;
     void    *img;
+    int     j;
+
+    j = 0;
+    while ((*vars)->grid[j] != NULL)
+    {
+        printf("%s\n", (*vars)->grid[j]);
+        j++;
+    }
+    
 
     (*vars)->lx = (*vars)->x;
     (*vars)->ly = (*vars)->y;
@@ -62,7 +71,7 @@ void update(t_vars **vars, int x, int y)
     if(loc_value == 'C')
     {
         (*vars)->collectable++;
-        (*vars)->grid[(*vars)->y][(*vars)->x] = 0;
+        (*vars)->grid[(*vars)->y][(*vars)->x] = '0';
     }
     if ((loc_value == 'E') && ((*vars)->collectable == (*vars)->collectable_max))
         mlx_destroy_display((*vars)->mlx); // maybe free rigth here not in game!
