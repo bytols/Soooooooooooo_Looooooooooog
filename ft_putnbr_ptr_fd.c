@@ -21,8 +21,7 @@ static void	ft_putnbr_ptr_fd(unsigned long n, int fd, char *base, int *count)
 	else
 	{
 		n = base[n];
-		write (fd, &n, 1);
-		*count += 1;
+		*count += write (fd, &n, 1);
 	}
 }
 
@@ -32,13 +31,11 @@ void	convert_ptr(void *ptr, int *count)
 
 	if (ptr == NULL)
 	{
-		write (1, "(nil)", 5);
-		*count += 5;
+		*count += write (1, "(nil)", 5);
 		return ;
 	}
 	num = (unsigned long ) ptr;
-	write (1, "0", 1);
-	write (1, "x", 1);
-	*count += 2;
+	*count += write (1, "0", 1);
+	*count += write (1, "x", 1);
 	ft_putnbr_ptr_fd(num, 1, "0123456789abcdef", count);
 }

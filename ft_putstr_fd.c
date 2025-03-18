@@ -14,18 +14,21 @@
 void	ft_putstr_fd(char *c, int fd, int *count)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	if (c == NULL)
 	{
-		write(fd, "(null)", 6);
+		j = write(fd, "(null)", 6);
 		*count += 6;
 		return ;
 	}
 	while (c[i] != '\0')
 	{
-		write (fd, &c[i], 1);
+		j = write (fd, &c[i], 1);
 		*count += 1;
 		i++;
 	}
+	(void) j;
 }

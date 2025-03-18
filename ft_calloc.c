@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putb.c                                          :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erocha-l <erocha-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 14:32:55 by erocha-l          #+#    #+#             */
-/*   Updated: 2025/03/18 17:57:11 by erocha-l         ###   ########.fr       */
+/*   Created: 2024/10/07 19:36:40 by erocha-l          #+#    #+#             */
+/*   Updated: 2025/03/18 17:45:17 by erocha-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	ft_putb(unsigned int n, int fd, char *base, int *count)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	if (n > 15)
-	{
-		ft_putb ((n / 16), fd, base, count);
-		ft_putb ((n % 16), fd, base, count);
-	}
-	else
-	{
-		n = base[n];
-		*count += write (fd, &n, 1);
-	}
+	void	*ptr;
+	size_t	total_size;
+
+	if (nmemb != 0 && (nmemb * size) / nmemb != size)
+		return (NULL);
+	total_size = (nmemb * size);
+	ptr = (void *)malloc(total_size);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, total_size);
+	return (ptr);
 }

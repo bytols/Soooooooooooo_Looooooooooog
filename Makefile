@@ -26,7 +26,7 @@ CC = cc
 AR = ar rcs
 
 # Arquivos fonte e objetos
-SRC = ft_strdup.c ft_strlcpy.c ft_strlen_c so_long.c get_map.c get_next_line.c flood_fill.c so_long_str_utils.c game.c gameplay.c ft_putchar_fd.c ft_printf.c ft_putstr_fd.c ft_putnbr_fd.c ft_putb.c ft_putnbr_ptr_fd.c ft_putunbr_fd.c
+SRC = ft_bzero.c ft_strjoin.c ft_strchr.c ft_calloc.c ft_strdup.c ft_strlcpy.c ft_strlen.c so_long.c get_map.c get_next_line.c flood_fill.c so_long_str_utils.c game.c gameplay.c ft_putchar_fd.c ft_printf.c ft_putstr_fd.c ft_putnbr_fd.c ft_putb.c ft_putnbr_ptr_fd.c ft_putunbr_fd.c
 OBJ = $(SRC:.c=.o)
 
 # Bibliotecas externas

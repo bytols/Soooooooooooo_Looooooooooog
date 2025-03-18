@@ -13,6 +13,9 @@
 
 void	ft_putunbr_fd(unsigned int n, int fd, int *count)
 {
+	int	j;
+
+	j = 0;
 	if (n > 9)
 	{
 		ft_putnbr_fd ((n / 10), fd, count);
@@ -21,7 +24,8 @@ void	ft_putunbr_fd(unsigned int n, int fd, int *count)
 	else
 	{
 		n = n + 48;
-		write (fd, &n, 1);
+		j = write (fd, &n, 1);
 		*count += 1;
 	}
+	(void) j;
 }

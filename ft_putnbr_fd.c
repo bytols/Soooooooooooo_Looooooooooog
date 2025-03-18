@@ -15,14 +15,12 @@ void	ft_putnbr_fd(int n, int fd, int *count)
 {
 	if (n == -2147483648)
 	{
-		write (fd, "-2147483648", 11);
-		*count += 11;
+		*count += write (fd, "-2147483648", 11);
 		return ;
 	}
 	if (n < 0)
 	{
-		write (fd, "-", 1);
-		*count += 1;
+		*count += write (fd, "-", 1);
 		n = -n;
 	}
 	if (n > 9)
@@ -33,7 +31,6 @@ void	ft_putnbr_fd(int n, int fd, int *count)
 	else
 	{
 		n = n + 48;
-		write (fd, &n, 1);
-		*count += 1;
+		*count += write (fd, &n, 1);
 	}
 }

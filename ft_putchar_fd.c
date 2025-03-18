@@ -13,6 +13,9 @@
 
 void	ft_putchar_fd(char c, int fd, int *count)
 {
-	write(fd, &c, 1);
+	int	i;
+
+	i = write(fd, &c, 1);
 	*count += 1;
+	(void) i;
 }
