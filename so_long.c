@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
     fd = ft_strlen(argv[1]);
     if(ft_strnstr(argv[1], ".ber", fd) == NULL)
     {
-        write(2, "Error\ninvalid map name", 23);
+        result = write(2, "Error\ninvalid map name", 23);
         return (0);
     }
     fd = open(argv[1], O_RDWR);
     if(fd == -1)
     {
-        write(2, "Error\nfile descriptor error", 23);
+        result = write(2, "Error\nfile descriptor error", 23);
         return (0);
     }
     result = get_map(fd, argv[1]);
@@ -26,6 +26,6 @@ int main(int argc, char *argv[])
 		result = write(2, "Error\n Map error", 16);
         return (0);
     }
-    game(argv[1]);
+    game(argv[1], fd);
     return(0);
 }

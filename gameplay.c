@@ -42,14 +42,14 @@ void update(t_vars **vars, int x, int y)
     if(loc_value == '\0')
         return ;
     if ((*vars)->grid[(*vars)->ly][(*vars)->lx] == 'E')
-        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/exit.xpm", &(*vars)->width, &(*vars)->height);
+        img = (*vars)->spr_e;
     else 
-        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/ground.xpm", &(*vars)->width, &(*vars)->height);   
+        img = (*vars)->spr_g;   
     mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img, ((*vars)->lx * 16), ((*vars)->ly * 16));
     if (loc_value == 'E')
-        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player_exit.xpm", &(*vars)->width, &(*vars)->height);
+        img = (*vars)->spr_pe;
     else 
-        img = mlx_xpm_file_to_image((*vars)->mlx, "sprites/player.xpm", &(*vars)->width, &(*vars)->height);
+        img = (*vars)->spr_p;
     mlx_put_image_to_window((*vars)->mlx, (*vars)->win, img,(*vars)->x * 16, (*vars)->y * 16);
     if(loc_value == 'C')
     {
@@ -57,7 +57,7 @@ void update(t_vars **vars, int x, int y)
         (*vars)->grid[(*vars)->y][(*vars)->x] = '0';
     }
     if ((loc_value == 'E') && ((*vars)->collectable == (*vars)->collectable_max))
-        mlx_destroy_display((*vars)->mlx); // maybe free rigth here not in game!
+        free_and_exit(vars);
 }
 
 int movement(int keycode, t_vars *vars)
@@ -68,10 +68,7 @@ int movement(int keycode, t_vars *vars)
     last_x = vars->x;
     last_y = vars->y;
 	if (keycode == XK_Escape)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		return (0);
-	}
+        free_and_exit(&vars);
 	else if (keycode == XK_Up)
         update(&vars, 0, -1);
 	else if (keycode == XK_Down)
@@ -90,8 +87,8 @@ int movement(int keycode, t_vars *vars)
 
 int x_press( t_vars *vars)
 {
-    mlx_destroy_window(vars->mlx, vars->win);
-    exit(0);
+    free_and_exit(&vars);
+    return (0);
 }
 
 

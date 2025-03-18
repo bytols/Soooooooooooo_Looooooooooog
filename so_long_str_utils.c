@@ -12,6 +12,15 @@
 
 #include "so_long.h"
 
+void free_and_exit(t_vars **vars)
+{
+    mlx_destroy_window((*vars)->mlx, (*vars)->win);
+	mlx_destroy_display((*vars)->mlx);
+	free((*vars)->mlx);
+    free_matrix(&(*vars)->grid);
+    exit(0);
+}
+
 int str_size(const char *s)
 {
     size_t	i;
