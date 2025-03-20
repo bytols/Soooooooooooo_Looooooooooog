@@ -92,7 +92,7 @@ char	check_position(t_vars **t_vars, int x, int y);
 int		count_collectable(char **grid);
 int		x_press( t_vars *vars);
 void	init_img(t_vars **w);
-void	free_img(t_vars *w);
+void	free_img(t_vars **w);
 void	free_partial_matrix(char ***matrix, int last);
 void	free_and_exit(t_vars **vars);
 void	collectable(t_vars **v);
@@ -110,7 +110,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-void	*ft_calloc(size_t nmemb, size_t size);   
+void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_bzero(void *s, size_t n);
 
 #endif

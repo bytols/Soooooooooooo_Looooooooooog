@@ -14,6 +14,7 @@
 
 void	free_and_exit(t_vars **vars)
 {
+	free_img(vars);
 	mlx_destroy_window((*vars)->mlx, (*vars)->win);
 	mlx_destroy_display((*vars)->mlx);
 	free((*vars)->mlx);

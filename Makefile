@@ -10,43 +10,33 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Nome da biblioteca e do executável final
 NAME = so_long
-LIB_NAME = libso_long.a  # Biblioteca estática
+LIB_NAME = libso_long.a 
 
-# Caminho para MiniLibX
 MINILIB_PATH = ./mlx_linux/
 MINILIB_A = $(MINILIB_PATH)libmlx.a
 
-# Flags de compilação
 FLAGS = -Wall -Werror -Wextra -Imlx_linux -O3
 
-# Compilador e criador de biblioteca estática
 CC = cc
 AR = ar rcs
 
-# Arquivos fonte e objetos
 SRC = ft_bzero.c ft_strjoin.c ft_strchr.c ft_calloc.c ft_strdup.c ft_strlcpy.c ft_strlen.c so_long.c get_map.c get_next_line.c flood_fill.c so_long_str_utils.c game.c gameplay.c ft_putchar_fd.c ft_printf.c ft_putstr_fd.c ft_putnbr_fd.c ft_putb.c ft_putnbr_ptr_fd.c ft_putunbr_fd.c
 OBJ = $(SRC:.c=.o)
 
-# Bibliotecas externas
 LIBX = -L$(MINILIB_PATH) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 
-# Regra para compilar arquivos .c para .o
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
 all: $(MINILIB_A) $(LIB_NAME) $(NAME) 
 
-# Compilar MiniLibX se necessário
 $(MINILIB_A):
 	make -C $(MINILIB_PATH)
 
-# Criar a biblioteca estática
 $(LIB_NAME): $(OBJ)
 	$(AR) $(LIB_NAME) $(OBJ)
 
-# Criar o executável final usando a biblioteca
 $(NAME): $(LIB_NAME)
 	$(CC) so_long.o $(LIB_NAME) $(LIBX) -o $(NAME)
 

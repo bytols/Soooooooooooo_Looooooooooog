@@ -39,7 +39,7 @@ int	ft_printf(const char *format, ...)
 	int		i;
 	int		count;
 	va_list	arguments;
-	
+
 	if (format == NULL)
 		return (-1);
 	va_start(arguments, format);

@@ -108,13 +108,13 @@ void	init_img(t_vars **w)
 	return ;
 }
 
-void	free_img(t_vars *w)
+void	free_img(t_vars **w)
 {
-	mlx_destroy_image(w->mlx, w->spr_g);
-	mlx_destroy_image(w->mlx, w->spr_c);
-	mlx_destroy_image(w->mlx, w->spr_p);
-	mlx_destroy_image(w->mlx, w->spr_r);
-	mlx_destroy_image(w->mlx, w->spr_e);
-	mlx_destroy_image(w->mlx, w->spr_pe);
+	mlx_destroy_image((*w)->mlx, (*w)->spr_g);
+	mlx_destroy_image((*w)->mlx, (*w)->spr_c);
+	mlx_destroy_image((*w)->mlx, (*w)->spr_p);
+	mlx_destroy_image((*w)->mlx, (*w)->spr_r);
+	mlx_destroy_image((*w)->mlx, (*w)->spr_e);
+	mlx_destroy_image((*w)->mlx, (*w)->spr_pe);
 	return ;
 }
